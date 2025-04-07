@@ -1,0 +1,15 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: https://ofs.u-code.io
+functions:
+  cardioapp-sort-notification:
+    lang: go
+    handler: ./cardioapp-sort-notification
+    image: gitlab.udevs.io:5050/ucode_functions_group/cardioapp-sort-notification/cardioapp-sort-notification:latest
+    constraints:
+    - "workload=openfaas-fn"
+    limits:
+      memory: 300Mi
+    requests:
+      memory: 5Mi
