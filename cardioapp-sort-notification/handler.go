@@ -77,3 +77,19 @@ func Handle(req []byte) string {
 
 	return string(responseByte)
 }
+
+func getSubset(data []map[string]interface{}, offset, limit float64) []map[string]interface{} {
+	if offset < 0 {
+		offset = 0
+	}
+	if int(offset) >= len(data) {
+		return make([]map[string]interface{}, 0)
+	}
+
+	endIndex := int(offset) + int(limit)
+	if endIndex > len(data) {
+		endIndex = len(data)
+	}
+
+	return data[int(offset):endIndex]
+}
