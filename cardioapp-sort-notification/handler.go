@@ -93,3 +93,25 @@ func getSubset(data []map[string]interface{}, offset, limit float64) []map[strin
 
 	return data[int(offset):endIndex]
 }
+
+func GetListObject(url, tableSlug, appId string, request Request) (GetListClientApiResponse, error, Response) {
+	response := Response{}
+
+	// Make the API request to get the list of notifications
+	getListResponseInByte, err := DoRequest(url, "POST", request, appId)
+	if err != nil {
+		response.Data = map[string]interface{}{"message": "Error while getting single object"}
+		response.Status = "error"
+		return GetListClientApiResponse{}, errors.New("error"), response
+	}
+
+	// Unmarshal the response into the GetListClientApiResponse structure
+	var getListObject GetListClientApiResponse
+	err = json.Unmarshal(getListResponseInByte, &getListObject)
+	if err != nil {
+		response.Data = map[string]interface{}{"message": "Error while unmarshalling get list object"}
+		response.Status = "error"
+		return GetListClientApiResponse{}, errors.New("error"), response
+	}
+	return getListObject, nil, response
+}
